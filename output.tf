@@ -1,7 +1,7 @@
 output "ip_main" {
-  value = module.kvm-nodes.main_ips
+  value = tolist(module.kvm.main_ips)
 }
 
 output "ip_nodes" {
-  value = module.kvm-nodes.nodes_ips
+  value = tolist(module.kvm.nodes_ips)
 }

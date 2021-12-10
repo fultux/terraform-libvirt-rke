@@ -1,5 +1,5 @@
-module "kvm-nodes" {
-	source	 =	"./modules/kvm-nodes"
+module "kvm" {
+	source	 =	"./modules/kvm"
 	main_count	= var.main_count
 	main_node_memory = var.main_node_memory
 	main_node_vcpu	= var.main_node_vcpu
@@ -10,3 +10,12 @@ module "kvm-nodes" {
 	node_ssh_user	=	var.node_ssh_user
 }
 
+
+
+module "rke" {
+	source = "./modules/rke"
+	main_ip = module.kvm.main_ips
+	worker_ip = module.kvm.nodes_ips
+	ssh_key_file = var.ssh_key_file
+	depends_on = [module.kvm]
+}

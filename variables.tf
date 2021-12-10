@@ -40,4 +40,9 @@ variable node_ssh_user {
   description = "SSH key to add to the cloud-init for user access"
 }
 
+variable "ssh_key_file" {
+    type = string
+    description = "ssh key"
+    default = "~/.ssh/id_rsa"
+}
 

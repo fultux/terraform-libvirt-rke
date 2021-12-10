@@ -85,6 +85,11 @@ resource "libvirt_domain" "main" {
     listen_type = "address"
     autoport    = true
   }
+
+    provisioner "local-exec" {
+    command = "sleep 60"
+    interpreter = ["/bin/bash", "-c"]    
+  }
 }
 
 
@@ -123,4 +128,11 @@ resource "libvirt_domain" "node" {
     autoport    = true
   }
 
+  provisioner "local-exec" {
+    command = "sleep 60"
+    interpreter = ["/bin/bash", "-c"]    
+  }
+
 }
+
+
