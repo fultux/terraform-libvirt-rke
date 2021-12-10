@@ -1,2 +1,2 @@
-# terraform-kvm-k3s
-Terraform module to create a k3s cluster on kvm
+# terraform-libvirt-rke
+Terraform module to create a rke cluster on top of kvm
