@@ -12,7 +12,7 @@ module "kvm" {
 
 
 
-module "rke" {
+ module "rke" {
 	source = "./modules/rke"
 	main_ip = module.kvm.main_ips
 	worker_ip = module.kvm.nodes_ips
