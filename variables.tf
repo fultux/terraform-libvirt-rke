@@ -30,12 +30,12 @@ variable worker_node_vcpu {
 }
 
 
-variable node_ssh_key {
+variable ssh_key {
   type        = string
   description = "SSH key to add to the cloud-init for user access"
 }
 
-variable node_ssh_user {
+variable ssh_user {
   type        = string
   description = "SSH key to add to the cloud-init for user access"
 }
@@ -46,3 +46,45 @@ variable "ssh_key_file" {
     default = "~/.ssh/id_rsa"
 }
 
+
+variable lb_memory {
+  type        = string
+  default     = 2048
+  description = "The amount of RAM for the loadbalancer"
+}
+
+variable lb_vcpu {
+  type        = number
+  description = "Number of vcpu for the lb"
+}
+
+#variable "worker_ip" {
+#    type = list
+
+#    description = "List of workers nodes ip"
+#}
+
+
+variable "lb_name" {
+  type = string
+  description = "Hostname used for the loadbalancer"
+  
+}
+
+variable "lb_ip" {
+type = string
+description = "Loadbalancer's ip"
+}
+
+
+variable "subnet_mask" {
+  type = string
+  description = "Hostname used for the loadbalancer"
+  
+}
+
+variable "subnet" {
+  type = string
+  description = "Hostname used for the loadbalancer"
+  
+}

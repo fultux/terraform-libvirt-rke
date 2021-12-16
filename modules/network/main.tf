@@ -2,7 +2,7 @@ resource "libvirt_network" "rancher_network" {
   name = "rancher_network"
   mode = "nat"
   autostart = true
-  addresses = ["10.24.10.0/24"]
+  addresses = ["${var.subnet}/${var.subnet_mask}"]
   dhcp {
       enabled = true
   }
@@ -14,8 +14,8 @@ resource "libvirt_network" "rancher_network" {
 
 
      hosts  {
-         hostname = "lb"
-         ip = "10.24.20.253"
+         hostname = var.lb_name
+         ip = var.lb_ip
        }
   }
 
