@@ -23,16 +23,18 @@ resource "libvirt_volume" "volume" {
 
 data "template_file" "network_config" {
   template = file("${path.module}/templates/network_config.cfg")
+  vars = {
+    ip_lb="10.24.10.253"
+  }
 }
 
 resource "libvirt_cloudinit_disk" "lb" {
-  name  = "cloudinit-main-lb.iso"
+  name  = "cloudinit-lb.iso"
   user_data = templatefile("${path.module}/templates/cloud_init.tftpl", {
       lb_ssh_user = var.lb_ssh_user,
       lb_ssh_key = var.lb_ssh_key,
-      node_hostname = "lb",
-      worker_ip = var.worker_ip,
-      count=0
+      node_hostname = var.lb_name,
+      worker_ip = var.worker_ip
     })
   network_config = data.template_file.network_config.rendered
 }
@@ -40,7 +42,7 @@ resource "libvirt_cloudinit_disk" "lb" {
 
 #Create the controler node
 resource "libvirt_domain" "lb" {
-  name = "lb"
+  name = var.lb_name
   disk {
     volume_id = libvirt_volume.volume.id 
   }
@@ -51,7 +53,8 @@ resource "libvirt_domain" "lb" {
 
   network_interface {
     network_name = "rancher_network" 
-    addresses      = ["10.24.10.253"]
+    hostname       = var.lb_name
+    addresses      = [var.lb_ip]
     wait_for_lease = true 
   }
 

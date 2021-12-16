@@ -7,7 +7,7 @@ users:
     ssh_authorized_keys:
        - ${lb_ssh_key}
     sudo: ALL=(ALL) NOPASSWD:ALL
-    groups: users, docker
+    groups: users
     lock-passwd: false
     passwd: $6$d.ZwZ06Dx$HIPwAsXVpbQgTmPeX/kjW9gLuBm7ILtvsslDo4lPDV9ujOJCMgDc9PLOqpMGgBrzReNqjQUGeWd0OLBb2mm06/
 growpart:
@@ -15,74 +15,50 @@ growpart:
   devices: ['/']
 
 packages:
-  - haproxy
+  - nginx
 
 write_files:
-  - path: /etc/haproxy/haproxy.cfg
+  - path: /etc/nginx/nginx.conf
     content: |
-    global 
+      load_module /usr/lib64/nginx/modules/ngx_stream_module.so;
+      worker_processes 4;
+      worker_rlimit_nofile 40000;
 
+      events {
+      worker_connections 8192;
+      }
 
-  maxconn 256
-  daemon
+      stream {
+      upstream rancher_servers_http {
+          least_conn;
+          %{ for i in worker_ip ~}
+          server ${i}:80 max_fails=3 fail_timeout=5s;
+          %{ endfor ~}
 
-defaults 
-  log     global
-  mode    http
-  option  httplog
-  option  dontlognull
-  retries 3
-  option redispatch
-  maxconn 2000
-  timeout connect   5000  
+      }
+      server {
+          listen 80;
+          proxy_pass rancher_servers_http;
+      }
 
+      upstream rancher_servers_https {
+          least_conn;
+          %{ for i in worker_ip ~}
+          server ${i}:443 max_fails=3 fail_timeout=5s;
+           %{ endfor ~}
+      }
+      server {
+          listen     443;
+          proxy_pass rancher_servers_https;
+      }
 
-  timeout client    50s   
-
-
-  timeout server    50000 
-
-frontend www-http
-bind *:80
-mode tcp
-option tcplog
-tcp-request inspect-delay 5s
-default_backend rancher-http
-
-frontend www-https
-bind *:443
-mode tcp
-option tcplog
-tcp-request inspect-delay 5s
-default_backend rancher-https
-
-backend rancher-http
-mode tcp
-balance roundrobin
-source 0.0.0.0 usesrc client
-%{ for i in worker_ip ~}
-count=0
-server node-${count} ${i}:80
-((count=count+1))
-%{ endfor ~}
-
-
-backend rancher-https
-mode tcp
-balance roundrobin
-source 0.0.0.0 usesrc client
-%{ for i in worker_ip ~}
-count=0
-server node-${count} ${i}:443
-((count=count+1))
-%{ endfor ~}
-
+      }
 
 runcmd: 
   - sudo systemctl daemon-reload
   - sudo systemctl enable qemu-guest-agent
   - sudo systemctl start qemu-guest-agent
-  - sudo systemctl enable haproxy
+  - sudo systemctl enable nginx
 
 power_state:
   mode: reboot

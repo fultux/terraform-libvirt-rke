@@ -25,3 +25,15 @@ variable "worker_ip" {
     type = list
     description = "List of workers nodes ip"
 }
+
+
+variable "lb_name" {
+  type = string
+  description = "Hostname used for the loadbalancer"
+  
+}
+
+variable "lb_ip" {
+type = string
+description = "Loadbalancer's ip"
+}
