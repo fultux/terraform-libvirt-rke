@@ -1,0 +1,91 @@
+#cloud-config
+# vim: syntax=yaml
+
+hostname: lb
+users:
+  - name: rancher
+    ssh_authorized_keys:
+       - ${lb_ssh_key}
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    groups: users, docker
+    lock-passwd: false
+    passwd: $6$d.ZwZ06Dx$HIPwAsXVpbQgTmPeX/kjW9gLuBm7ILtvsslDo4lPDV9ujOJCMgDc9PLOqpMGgBrzReNqjQUGeWd0OLBb2mm06/
+growpart:
+  mode: auto
+  devices: ['/']
+
+packages:
+  - haproxy
+
+write_files:
+  - path: /etc/haproxy/haproxy.cfg
+    content: |
+    global 
+
+
+  maxconn 256
+  daemon
+
+defaults 
+  log     global
+  mode    http
+  option  httplog
+  option  dontlognull
+  retries 3
+  option redispatch
+  maxconn 2000
+  timeout connect   5000  
+
+
+  timeout client    50s   
+
+
+  timeout server    50000 
+
+frontend www-http
+bind *:80
+mode tcp
+option tcplog
+tcp-request inspect-delay 5s
+default_backend rancher-http
+
+frontend www-https
+bind *:443
+mode tcp
+option tcplog
+tcp-request inspect-delay 5s
+default_backend rancher-https
+
+backend rancher-http
+mode tcp
+balance roundrobin
+source 0.0.0.0 usesrc client
+%{ for i in worker_ip ~}
+count=0
+server node-${count} ${i}:80
+((count=count+1))
+%{ endfor ~}
+
+
+backend rancher-https
+mode tcp
+balance roundrobin
+source 0.0.0.0 usesrc client
+%{ for i in worker_ip ~}
+count=0
+server node-${count} ${i}:443
+((count=count+1))
+%{ endfor ~}
+
+
+runcmd: 
+  - sudo systemctl daemon-reload
+  - sudo systemctl enable qemu-guest-agent
+  - sudo systemctl start qemu-guest-agent
+  - sudo systemctl enable haproxy
+
+power_state:
+  mode: reboot
+  message: rebooting
+  timeout: 10
+  condition: True

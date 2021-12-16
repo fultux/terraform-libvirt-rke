@@ -64,7 +64,7 @@ resource "libvirt_domain" "main" {
   cloudinit = libvirt_cloudinit_disk.mainnode[count.index].id
 
   network_interface {
-    network_name = "default" 
+    network_name = "rancher_network" 
     wait_for_lease = true 
   }
 
@@ -106,7 +106,7 @@ resource "libvirt_domain" "node" {
   cloudinit = libvirt_cloudinit_disk.workernodes[count.index].id
 
   network_interface {
-    network_name = "default" 
+    network_name = "rancher_network" 
     wait_for_lease = true 
   }
 
