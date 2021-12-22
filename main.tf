@@ -5,9 +5,6 @@ module "network" {
 	subnet_mask = var.subnet_mask
 	lb_name = var.lb_name
 	lb_ip = var.lb_ip
-		providers = {
-	  name = libvirt.main
-	 }
 }
 module "kvm" {
 	source	 = "./modules/kvm"
@@ -20,9 +17,6 @@ module "kvm" {
 	node_ssh_key	=	var.ssh_key
 	node_ssh_user	=	var.ssh_user
 	depends_on = [module.network]
-	providers = {
-	  name = libvirt.main
-	 }
 }
 	
 
@@ -32,13 +26,10 @@ module "nginx" {
 	lb_vcpu = var.lb_vcpu
 	lb_ssh_key = var.ssh_key
 	lb_ssh_user = var.ssh_user
-	worker_ip = var.worker_ip
+	worker_ip = module.kvm.nodes_ips
 	lb_name = var.lb_name
 	lb_ip = var.lb_ip
 	depends_on = [module.kvm]
-	providers = {
-	  name = libvirt.main
-	 }
 	}
 
 
