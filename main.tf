@@ -40,7 +40,13 @@ module "nginx" {
 	main_ip = module.kvm.main_ips
 	worker_ip = module.kvm.nodes_ips
 	ssh_key_file = var.ssh_key_file
-	depends_on = [module.kvm]
+	depends_on = [module.kvm,module.nginx]
 }
 
+
+module "rancher" {
+	source = "./modules/rancher"
+	url = var.url
+	depends_on = [module.rke]
+}
 

@@ -88,3 +88,8 @@ variable "subnet" {
   description = "Hostname used for the loadbalancer"
   
 }
+
+variable "url" {
+    type = string
+    description = "url to reach the loadbalancer (must have been setup on your host machine)"
+}

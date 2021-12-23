@@ -1,7 +1,13 @@
+
+resource "null_resource" "sleep_reboot" {
+  provisioner "local-exec" {
+    command = "sleep 120"
+  }
+}
+
+
 resource rke_cluster "cluster" {
 cluster_name = "rke_test"
-
-
   dynamic nodes {
     for_each = var.main_ip
     content {
@@ -12,8 +18,6 @@ cluster_name = "rke_test"
         ssh_key = file(var.ssh_key_file)
     }
   }
-
-
   dynamic nodes {
     for_each = var.worker_ip
     content {
@@ -23,7 +27,8 @@ cluster_name = "rke_test"
         role    = ["worker"]
         ssh_key = file(var.ssh_key_file)
     }
-  }
+  }  
+depends_on = [null_resource.sleep_reboot]
 }
 
 
