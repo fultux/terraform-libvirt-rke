@@ -10,3 +10,10 @@ terraform {
 provider "libvirt" {
   uri = "qemu:///system"
 }
+
+
+provider "helm" {
+  kubernetes {
+    config_path = "kube_config_cluster.yml"
+  }
+}
