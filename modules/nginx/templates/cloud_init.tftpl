@@ -31,7 +31,7 @@ write_files:
       stream {
       upstream rancher_servers_http {
           least_conn;
-          %{ for i in worker_ip ~}
+          %{ for i in nodes_ip ~}
           server ${i}:80 max_fails=3 fail_timeout=5s;
           %{ endfor ~}
 
@@ -43,7 +43,7 @@ write_files:
 
       upstream rancher_servers_https {
           least_conn;
-          %{ for i in worker_ip ~}
+          %{ for i in nodes_ip ~}
           server ${i}:443 max_fails=3 fail_timeout=5s;
            %{ endfor ~}
       }

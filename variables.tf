@@ -1,30 +1,14 @@
-variable main_count {
-  type        = number
-  default = 1
-  description = "Number of nodes to be provisioned"
-}
-
-variable main_node_memory {
-  type        = string
-  description = "The amount of RAM for each nodes"
-}
-
-variable main_node_vcpu {
-  type        = number
-  description = "Number of vcpu for the nodes"
-}
-
 variable node_count {
   type        = number
   description = "Number of nodes to be provisioned"
 }
 
-variable worker_node_memory {
+variable node_memory {
   type        = string
   description = "The amount of RAM for each nodes"
 }
 
-variable worker_node_vcpu {
+variable node_vcpu {
   type        = number
   description = "Number of vcpu for the nodes"
 }
