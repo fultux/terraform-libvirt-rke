@@ -21,7 +21,7 @@ variable lb_ssh_user {
 }
 
 
-variable "worker_ip" {
+variable "nodes_ip" {
     type = list
     description = "List of workers nodes ip"
 }

@@ -34,7 +34,7 @@ resource "libvirt_cloudinit_disk" "lb" {
       lb_ssh_user = var.lb_ssh_user,
       lb_ssh_key = var.lb_ssh_key,
       node_hostname = var.lb_name,
-      worker_ip = var.worker_ip
+      nodes_ip = var.nodes_ip
     })
   network_config = data.template_file.network_config.rendered
 }

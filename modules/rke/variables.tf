@@ -1,8 +1,3 @@
-variable main_count {
-  type        = number
-  default = 1
-  description = "Number of nodes to be provisioned"
-}
 
 variable node_count {
   type        = number
@@ -11,12 +6,7 @@ variable node_count {
 }
 
 
-variable "main_ip" {    
-    type = list
-    description = "List of main nodes ip"
-}
-
-variable "worker_ip" {
+variable "nodes_ip" {
     type = list
     description = "List of workers nodes ip"
 }

@@ -9,22 +9,12 @@ resource "null_resource" "sleep_reboot" {
 resource rke_cluster "cluster" {
 cluster_name = "rke_test"
   dynamic nodes {
-    for_each = var.main_ip
+    for_each = var.nodes_ip
     content {
         ssh_agent_auth  = true
         address = nodes.value
         user    = "rancher"
-        role    = ["controlplane", "etcd"]
-        ssh_key = file(var.ssh_key_file)
-    }
-  }
-  dynamic nodes {
-    for_each = var.worker_ip
-    content {
-        ssh_agent_auth  = true
-        address = nodes.value
-        user    = "rancher"
-        role    = ["worker"]
+        role    = ["controlplane", "etcd","worker"]
         ssh_key = file(var.ssh_key_file)
     }
   }  
