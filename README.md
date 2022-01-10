@@ -18,20 +18,18 @@ git clone https://github.com/fultux/terraform-libvirt-rke.git
 Create a value file like the following exemple with values set to your needs: 
 
 ```
-main_node_memory = "4096"
-main_node_vcpu = 1
-node_count = 2 
-worker_node_memory = "8192"
-worker_node_vcpu = 2
-ssh_user = "rancher"
-ssh_key = "<value of your public key here>"
-lb_memory = "1024"
-lb_vcpu = 1
+node_count = #Number of nodes in the cluster
+node_memory = "" #Amount of memory for each nodes 
+node_vcpu = #Number of vcpu for each nodes 
+ssh_user = "" #Username for the ssh user
+ssh_key = "" #Your ssh public key to be added in the allowed hosts on each vm
+lb_memory = "" #Amount of ram used for the loadbalancer
+lb_vcpu = #Number of vcpu for the loadbalancer
 lb_name = "lb"
-lb_ip = "10.24.10.253"
-subnet = "10.24.10.0"
+lb_ip = "" #Ip of the loadbalancer
+subnet = ""
 subnet_mask = "24"
-url = "rancher.test.local"
+url = "" #DNS name for the loadbalancer that was set up on your systenm
 ```
 
 Init 
@@ -44,8 +42,8 @@ terraform init
 plan then apply : 
 
 ```
-terraform plan --var-file=values.tfvars
-terraform apply --var-file=values.tfvars
+terraform plan --var-file=<name-of-value-file>
+terraform apply --var-file=<name-of-value-file>
 ```
 
 Removal 
