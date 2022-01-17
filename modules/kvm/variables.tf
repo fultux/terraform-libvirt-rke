@@ -34,3 +34,11 @@ variable "hostname_pattern" {
   type    = string
   default = "node-%02d"
 }
+
+
+variable "node_disk_size" {
+    type = number
+    description = "Disk size for the nodes in Bytes"
+    default = 32212254720
+
+}

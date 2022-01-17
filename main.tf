@@ -15,6 +15,7 @@ module "kvm" {
 	node_ssh_user	=	var.ssh_user
 	ssh_key_file = var.ssh_key_file
 	depends_on = [module.network]
+	node_disk_size	= var.node_disk_size
 }
 	
 

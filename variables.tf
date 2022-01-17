@@ -77,3 +77,11 @@ variable "url" {
     type = string
     description = "url to reach the loadbalancer (must have been setup on your host machine)"
 }
+
+
+variable "node_disk_size" {
+    type = number
+    description = "Disk size for the nodes in Bytes"
+    default = 32212254720
+
+}

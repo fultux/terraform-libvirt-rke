@@ -9,6 +9,7 @@ resource "libvirt_volume" "volume" {
   name   = "volume-${count.index}"
   pool   = "default"
   base_volume_id = libvirt_volume.os_image.id
+  size   = var.node_disk_size
 }
 
 data "template_file" "node_user_data" {
