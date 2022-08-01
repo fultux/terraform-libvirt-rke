@@ -16,6 +16,7 @@ module "kvm" {
 	ssh_key_file = var.ssh_key_file
 	depends_on = [module.network]
 	node_disk_size	= var.node_disk_size
+	storage_pool = var.storage_pool
 }
 	
 
@@ -28,6 +29,7 @@ module "nginx" {
 	nodes_ip = module.kvm.nodes_ips
 	lb_name = var.lb_name
 	lb_ip = var.lb_ip
+	storage_pool = var.storage_pool
 	depends_on = [module.kvm]
 	}
 
