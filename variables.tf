@@ -83,5 +83,10 @@ variable "node_disk_size" {
     type = number
     description = "Disk size for the nodes in Bytes"
     default = 32212254720
+}
 
+variable "storage_pool" {
+    type = string
+    description = "Storage pool"
+    default = "default"
 }

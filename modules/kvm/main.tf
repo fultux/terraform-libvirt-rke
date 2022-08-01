@@ -7,7 +7,7 @@ resource "libvirt_volume" "os_image" {
 resource "libvirt_volume" "volume" {
   count  = var.node_count
   name   = "volume-${count.index}"
-  pool   = "default"
+  pool   = var.storage_pool
   base_volume_id = libvirt_volume.os_image.id
   size   = var.node_disk_size
 }

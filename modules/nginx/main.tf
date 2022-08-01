@@ -6,7 +6,7 @@ resource "libvirt_volume" "os_image" {
 
 resource "libvirt_volume" "volume" {
   name   = "volume-lb"
-  pool   = "default"
+  pool   = var.storage_pool
   base_volume_id = libvirt_volume.os_image.id
 }
 
@@ -24,7 +24,7 @@ resource "libvirt_volume" "volume" {
 data "template_file" "network_config" {
   template = file("${path.module}/templates/network_config.cfg")
   vars = {
-    ip_lb="10.24.10.253"
+    ip_lb=var.lb_ip
   }
 }
 

@@ -42,3 +42,10 @@ variable "node_disk_size" {
     default = 32212254720
 
 }
+
+
+variable "storage_pool" {
+    type = string
+    description = "Storage pool"
+    default = "default"
+}

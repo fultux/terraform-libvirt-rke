@@ -37,3 +37,10 @@ variable "lb_ip" {
 type = string
 description = "Loadbalancer's ip"
 }
+
+
+variable "storage_pool" {
+    type = string
+    description = "Storage pool"
+    default = "default"
+}

@@ -21,6 +21,7 @@ Create a value file like the following exemple with values set to your needs:
 node_count = #Number of nodes in the cluster
 node_memory = "" #Amount of memory for each nodes 
 node_vcpu = #Number of vcpu for each nodes 
+storage_pool = #Libvirt storage pool
 ssh_user = "" #Username for the ssh user
 ssh_key = "" #Your ssh public key to be added in the allowed hosts on each vm
 lb_memory = "" #Amount of ram used for the loadbalancer
